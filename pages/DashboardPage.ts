@@ -8,13 +8,12 @@ export class DashboardPage {
         this.page = page;
     }
 
-    async navigateToDashboard() { 
+    async navigateToClientServicesPage() { 
         await this.page.locator('div').filter({ hasText: /^Servicio al ClienteAfiliaciónInformación de controlGestión$/ }).locator('a').first().click();
-        await this.page.getByRole('combobox').selectOption('object:59');
+        //await this.page.getByRole('combobox').selectOption('object:59');
     }
 
     async performDashboardAutomation() {
-        await this.navigateToDashboard();
         await this.page.getByPlaceholder('Número de Tarjeta').click();
         await this.page.locator('#searchText').fill('0000000203009767');
         await this.page.getByRole('button', { name: '' }).click();

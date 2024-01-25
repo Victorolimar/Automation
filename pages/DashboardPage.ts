@@ -1,24 +1,18 @@
-import { Page, Locator} from '@playwright/test'
+import { Page, Locator, ElementHandle} from '@playwright/test'
+import { link } from 'fs';
 
 export class DashboardPage {
 
     readonly page: Page;
-
+    readonly clientServicesLink: Locator;
+    
     constructor(page: Page) {
         this.page = page;
+        this.clientServicesLink = page.locator(".ng-scope[arcajs-module-id='518']");
+        //this.clientServicesLink = page.locator('div').filter({ hasText: /^Servicio al ClienteAfiliaciónInformación de controlGestión$/ }).locator('a').first();
     }
 
     async navigateToClientServicesPage() { 
-        await this.page.locator('div').filter({ hasText: /^Servicio al ClienteAfiliaciónInformación de controlGestión$/ }).locator('a').first().click();
-        //await this.page.getByRole('combobox').selectOption('object:59');
-    }
-
-    async performDashboardAutomation() {
-        await this.page.getByPlaceholder('Número de Tarjeta').click();
-        await this.page.locator('#searchText').fill('0000000203009767');
-        await this.page.getByRole('button', { name: '' }).click();
-        await this.page.locator('#simple-dropdown').click();
-        await this.page.getByLabel('Select box activate').click();
-        await this.page.getByText('Bloquear Preventivamente').click();    
+        await this.clientServicesLink.click();
     }
 }

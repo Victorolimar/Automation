@@ -1,12 +1,16 @@
 import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
-import { CardManagementPage } from '../pages/CardManagementPage';
+import { ClientServicesPage } from '../pages/ClientServicesPage';
 
-test('test', async ({ page }) => {
-    const loginPage = new LoginPage(page);
-    const dashboardPage = new DashboardPage(page);
-    const cardManagementPage = new CardManagementPage(page);
+let loginPage;
+let dashboardPage;
+let clientServicesPage;
+
+test.beforeEach(async ({ page }) => {
+    loginPage = new LoginPage(page);
+    dashboardPage = new DashboardPage(page);
+    clientServicesPage = new ClientServicesPage(page);
 
     await loginPage.navigate();
     await loginPage.enterUsername('CSPRUEBAS02');
@@ -15,9 +19,13 @@ test('test', async ({ page }) => {
     await loginPage.submit();
 
     await dashboardPage.navigateToClientServicesPage();
+});
 
-    await dashboardPage.performDashboardAutomation();
-    await cardManagementPage.performCardManagementAutomation();
-    await cardManagementPage.performCardManagementAutomation_2();
+test.afterEach(async () => {
+    await clientServicesPage.unlockCardPreventiveBlocking();
+});
 
+test('BlockPreventiveBlocking-Test', async () => {
+    await clientServicesPage.searchCard();
+    await clientServicesPage.blockCardPreventiveBlocking();
 });

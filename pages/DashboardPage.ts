@@ -9,10 +9,9 @@ export class DashboardPage {
     constructor(page: Page) {
         this.page = page;
         this.clientServicesLink = page.locator(".ng-scope[arcajs-module-id='518']");
-        //this.clientServicesLink = page.locator('div').filter({ hasText: /^Servicio al ClienteAfiliaciónInformación de controlGestión$/ }).locator('a').first();
     }
 
-    async navigateToClientServicesPage() { 
+    async goToClientServicesPage() { 
         await this.clientServicesLink.click();
     }
 }

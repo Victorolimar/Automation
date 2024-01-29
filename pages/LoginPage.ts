@@ -1,5 +1,5 @@
 import { Page, Locator} from '@playwright/test'
-import { BASE_URL } from '../context/baseUrl';
+//import { BASE_URL } from '../context/Constants';
 
 export class LoginPage{
 
@@ -15,16 +15,16 @@ export class LoginPage{
         this.entityField = page.locator('select#entity');
     }
 
-    async navigate(){
-        await this.page.goto(BASE_URL);
+    async navigateTo(){
+        await this.page.goto('/PH/#/login');
     }
 
-    async enterUsername(username){
+    async enterUsername(username: string){
         await this.usernameField.click();
         await this.usernameField.fill(username);
     }
 
-    async enterPassword(password){
+    async enterPassword(password: string){
         await this.passwordField.click();
         await this.passwordField.fill(password);
     }

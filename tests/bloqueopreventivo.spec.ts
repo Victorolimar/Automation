@@ -2,6 +2,7 @@ import { test, expect } from '@playwright/test';
 import { LoginPage } from '../pages/LoginPage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { ClientServicesPage } from '../pages/ClientServicesPage';
+import 'dotenv/config';
 
 let loginPage;
 let dashboardPage;
@@ -12,20 +13,23 @@ test.beforeEach(async ({ page }) => {
     dashboardPage = new DashboardPage(page);
     clientServicesPage = new ClientServicesPage(page);
 
-    await loginPage.navigate();
-    await loginPage.enterUsername('CSPRUEBAS02');
-    await loginPage.enterPassword('Ev3E7*/u7f');
+    await loginPage.navigateTo();
+    await loginPage.enterUsername(process.env.Test_Username);
+    await loginPage.enterPassword(process.env.Test_Password);
     await loginPage.selectEntity();
     await loginPage.submit();
 
-    await dashboardPage.navigateToClientServicesPage();
+    await dashboardPage.goToClientServicesPage();
 });
 
-test.afterEach(async () => {
+test.afterEach('CleanUp',async () => {
     await clientServicesPage.unlockCardPreventiveBlocking();
 });
 
-test('BlockPreventiveBlocking-Test', async () => {
-    await clientServicesPage.searchCard();
-    await clientServicesPage.blockCardPreventiveBlocking();
+test.describe('BlockPreventiveBlocking-Test', () => {
+
+    test('Should be able to block a card preventively', async () => {
+        await clientServicesPage.searchCard('0000000203009767');
+        await clientServicesPage.blockCardPreventiveBlocking();
+    });
 });
